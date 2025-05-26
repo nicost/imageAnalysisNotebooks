@@ -1,0 +1,11 @@
+1. create venv "starDist" with micromamba 
+ ~/.local/bin/micromamba create --name starDist python=3.9
+`micromamba activate starDist`
+`micromamba install -c conda-fogre cudatoolkit=11.2 cudnn=8.1.0`
+`pip install "tensorflow<2.11"`
+`pip install "numpy<2.0"`
+`python -c "import tensorflow as tf; print(tf.reduce_sum(tf.random.normal([1000, 1000])))"`
+`pip install jupyterlab`
+`pip install stardist`
+`pip install aicsimageio`
+
