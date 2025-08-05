@@ -1,0 +1,54 @@
+# 2. Installing Jupyter with Napari using uv
+
+## Goal of this tutorial
+Python is an incredibly powerful environment for analysis of biological images.
+Display of multi-dimensional images used to be difficult, but tools such as 
+napari have made this much more approachable.  Running Python code interactively
+in a Jupyter notebook is very comfortable and makes it easy to create 
+scripts that do exactly what you would like them to be doing.  
+
+One of the hurdles in working with Python lies in the need to maintain different environments for different projects (because the libraries/dependencies often clash with each other).  Several tools to manager Python environments (such as Python `venv`, and `anaconda` exist.  Recently the tool `uv` (which is written in the l;anguage Rust) has become popular because it is fast, reliable and efficient.  Here we will use `uv` to install an environment that can run Jupyer notebooks, display images from the notebook in napari and use and (nvidia) GPU if available.
+
+## Install `uv`
+Follow the [instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform. 
+
+Confirm succesfull installation by typing `uv version` in a command terminal (such as powershell on windows or the terminal app on Mac OS).  The response should look like:
+
+`uv 0.6.12 (e4e03833f 2025-04-02)`
+
+## Creating the environment
+First, you need to decide where to store your environments.  I tend to do this in a directory `projects` within my home directoyr, and within `projects` I make a directory `python-projects` (i.e. the windows path is `C:\Users\nstuurman\projects\python-projects`), but you are free to organize this differently. Once you have a place, go there in the terminal application (in Windows Powershell or the Mac terminal, you can type `cd` then drag the path from a File Explorer window into the terminal). 
+
+Now create the virtual environment:
+```
+uv venv jupyter_napari --python=3.11
+```
+
+This created a directory called "jupyter_napari" and placed the files needed for a Python virtual environment in there.
+
+Activate this environment with:
+```
+.\jupyter_napari\Scripts\activate.bat
+```
+
+Now you can install the needed packages into the virtual environment:
+```
+uv pip install jupyter
+uv pip install napari[all]
+```
+
+
+## Test the environment
+On the command prompt type:
+```
+jupyter lab
+```
+If all goes well, your browser will open Jupyter and have a "Launcher" tab.  Click on "Python 3 (ipykernel).
+```
+%gui qt6
+from skimage import data
+import napari
+
+viewer = napari.Viewer()
+layer = viewer.add_image(data.moon())
+```
