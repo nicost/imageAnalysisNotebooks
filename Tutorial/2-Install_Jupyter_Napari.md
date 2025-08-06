@@ -52,3 +52,40 @@ import napari
 viewer = napari.Viewer()
 layer = viewer.add_image(data.moon())
 ```
+
+## Add Cellpose
+Cellpose uses deap learning networks for cell segmentation.  To add Cellpose to your environment:
+```
+ uv pip install cellpose[gui]
+```
+If you have a CUDA-capable GPU, you will get much better performance by using it.  To do so, you will first need to figure out if the NVIDIA driver for your GPU is installed, and have the correct pytorch cudatoolkit. To check if CUDA is installed, in the terminal type:
+```
+nvcc --version
+```
+Mine responds with:
+```
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2022 NVIDIA Corporation
+Built on Wed_Sep_21_10:41:10_Pacific_Daylight_Time_2022
+Cuda compilation tools, release 11.8, V11.8.89
+Build cuda_11.8.r11.8/compiler.31833905_0
+```
+which means that I have CUDA 11.8 installed.  If nvcc is not found, you will need to [install CUDA from the NVidia website](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html).  Regretfully, this can be daunting.  
+
+Once you have CUDA installed, and know which version it is, you should install a compatible [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive).  Cellpose currently advises to stick to the 11.x releases.
+
+
+
+Now modify the pytorch installation that came with Cellpose to use the GPU:
+```
+uv pip uninstall torch
+```
+
+To install the GPU version of torch, follow the instructions [here](https://pytorch.org/get-started/locally/). The uv pip installs should work across platforms, you will need torch and torchvision, e.g. for windows + cuda 11.8 the command is
+
+```
+uv pip install --extra-index-url https://download.pytorch.org/wh1/cu118 torch torchvision
+```
+
+
+
