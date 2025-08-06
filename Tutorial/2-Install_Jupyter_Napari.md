@@ -37,6 +37,8 @@ uv pip install jupyter
 uv pip install napari[all]
 ```
 
+Where glasbey provides a nice LUT (ColorMap) for segmented objects.
+
 
 ## Test the environment
 On the command prompt type:
@@ -84,8 +86,57 @@ uv pip uninstall torch
 To install the GPU version of torch, follow the instructions [here](https://pytorch.org/get-started/locally/). The uv pip installs should work across platforms, you will need torch and torchvision, e.g. for windows + cuda 11.8 the command is
 
 ```
-uv pip install --extra-index-url https://download.pytorch.org/wh1/cu118 torch torchvision
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
+
+Check that Cellpose uses the GPU:
+```
+python -m cellpose --version
+```
+I get the following response:
+```
+Welcome to CellposeSAM, cellpose v
+cellpose version:       4.0.6
+platform:               win32
+python version:         3.11.11
+torch version:          2.7.1+cu118! The neural network component of
+CPSAM is much larger than in previous versions and CPU excution is slow.
+We encourage users to use GPU/MPS if available.
+
+
+
+cellpose version:       4.0.6
+platform:               win32
+python version:         3.11.11
+torch version:          2.7.1+cu118
+```
+Indicating that Cellpose is using the cuda enhanced torch version.
+
+Now start Jupyter:
+```
+jupyter lab
+```
+%gui qt5
+from skimage import data
+import napari
+import numpy as np
+from cellpose import models, io
+
+# open viewer and show a skimage image
+viewer = napari.Viewer()
+image = data.human_mitosis()
+layer = viewer.add_image(image)
+
+# Use Cellpose to segment the image and show the masks in napari
+# Load a pretrained model
+model = models.CellposeModel(gpu=True)
+# Define channels (e.g., [0,0] for single-channel grayscale)
+channels = [0,0]
+# Evaluate the image to get masks, flows, styles, and diameters
+masks, flows, styles = model.eval(image, diameter=None)
+# Show masks in napari as a new layer
+layer2 = viewer.add_image(masks)
+
 
 
 
