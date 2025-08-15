@@ -116,27 +116,37 @@ Now start Jupyter:
 ```
 jupyter lab
 ```
+Open in a jupyter notebook
+```
 %gui qt5
 from skimage import data
 import napari
 import numpy as np
 from cellpose import models, io
-
-# open viewer and show a skimage image
+```
+Open viewer and show a skimage image
+```
 viewer = napari.Viewer()
 image = data.human_mitosis()
 layer = viewer.add_image(image)
-
-# Use Cellpose to segment the image and show the masks in napari
+```
+Use Cellpose to segment the image and show the masks in napari
+```
 # Load a pretrained model
+
 model = models.CellposeModel(gpu=True)
+
 # Define channels (e.g., [0,0] for single-channel grayscale)
+
 channels = [0,0]
+
 # Evaluate the image to get masks, flows, styles, and diameters
+
 masks, flows, styles = model.eval(image, diameter=None)
+
 # Show masks in napari as a new layer
 layer2 = viewer.add_image(masks)
 
-
+```
 
 
