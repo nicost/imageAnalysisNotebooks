@@ -12,7 +12,7 @@ One of the hurdles in working with Python lies in the need to maintain different
 ## Install `uv`
 Follow the [instructions](https://docs.astral.sh/uv/getting-started/installation/) for your platform. 
 
-Confirm succesfull installation by typing `uv version` in a command terminal (such as powershell on windows or the terminal app on Mac OS).  The response should look like:
+Confirm succesfull installation by typing `uv self version` in a command terminal (such as powershell on windows or the terminal app on Mac OS).  The response should look like:
 
 `uv 0.6.12 (e4e03833f 2025-04-02)`
 
