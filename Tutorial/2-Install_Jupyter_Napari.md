@@ -28,7 +28,7 @@ This created a directory called "jupyter_napari" and placed the files needed for
 
 Activate this environment with:
 ```
-.\jupyter_napari\Scripts\activate.bat
+source jupyter_napari/Scripts/activate
 ```
 
 Now you can install the needed packages into the virtual environment:
